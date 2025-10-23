@@ -1,6 +1,7 @@
 package com.sanjeeban.SpringCaching.controllers;
 
 
+import com.sanjeeban.SpringCaching.dtos.PopularBookDto;
 import com.sanjeeban.SpringCaching.dtos.RequestBookDto;
 import com.sanjeeban.SpringCaching.dtos.ResponseBookDto;
 import com.sanjeeban.SpringCaching.entities.Book;
@@ -66,6 +67,22 @@ public class BookController {
         }
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/getMostPopularBook")
+    public ResponseEntity<PopularBookDto> getMostPopularBook(){
+        PopularBookDto response = new PopularBookDto();
+
+        try{
+            response = bookService.getMostPopularBook();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 }

@@ -1,11 +1,14 @@
 package com.sanjeeban.SpringCaching.services;
 
 
+import com.sanjeeban.SpringCaching.dtos.PopularBookDto;
 import com.sanjeeban.SpringCaching.dtos.RequestBookDto;
 import com.sanjeeban.SpringCaching.entities.Book;
 import com.sanjeeban.SpringCaching.repositories.BookRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +23,14 @@ public class BookService {
     private GenreService genreService;
 
     private BookRepository bookRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public BookService(AuthorService authorService,GenreService genreService,BookRepository bookRepository){
+    public BookService(AuthorService authorService,GenreService genreService,BookRepository bookRepository,ModelMapper modelMapper){
         this.authorService = authorService;
         this.genreService = genreService;
         this.bookRepository = bookRepository;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -58,7 +63,7 @@ public class BookService {
         Long authorId = authorService.getAuthorIdByAuthorName(authorName);
 
 
-        response.setbName(request.getBookName());
+        response.setbookName(request.getBookName());
         response.setAuthor(authorService.getAuthorByAuthorId(authorId));
         response.setGenre(genreService.getGenreByGenreId(genreId));
 
@@ -106,4 +111,32 @@ public class BookService {
     }
 
 
+    public PopularBookDto getMostPopularBook() {
+
+        PopularBookDto response = new PopularBookDto();
+
+
+        List<Book> listOfAllBooks = new ArrayList<>();
+        listOfAllBooks = bookRepository.findAll();
+        String bookName = "";
+        int maxViews = 0;
+        if(listOfAllBooks.isEmpty()){
+            response.setRemarks("There are no Books to compare");
+        }else{
+            for(Book book : listOfAllBooks){
+                if(book.getTotalViews()>maxViews){
+                    bookName = book.getbookName();
+                    maxViews = book.getTotalViews();
+                }
+            }
+        }
+        Optional<Book> mostPopularBook = bookRepository.findBookByBookName(bookName);
+
+        if(mostPopularBook.isPresent()){
+            response = modelMapper.map(mostPopularBook.get(), PopularBookDto.class);
+        }
+        return response;
+
+
+    }
 }

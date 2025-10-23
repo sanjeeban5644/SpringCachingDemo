@@ -16,10 +16,10 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="book_id",nullable = false)
-    private Long bId;
+    private Long bookId;
 
     @Column(name="book_name",length=255,nullable=false)
-    private String bName;
+    private String bookName;
 
     @ManyToOne
     @JoinColumn(
@@ -47,29 +47,29 @@ public class Book {
     public Book() {
     }
 
-    public Book(Long bId, String bName, Author author, Genre genre, double avgRating, int totalViews) {
-        this.bId = bId;
-        this.bName = bName;
+    public Book(Long bookId, String bookName, Author author, Genre genre, double avgRating, int totalViews) {
+        this.bookId = bookId;
+        this.bookName = bookName;
         this.author = author;
         this.genre = genre;
         this.avgRating = avgRating;
         this.totalViews = totalViews;
     }
 
-    public Long getbId() {
-        return bId;
+    public Long getbookId() {
+        return bookId;
     }
 
-    public void setbId(Long bId) {
-        this.bId = bId;
+    public void setbookId(Long bId) {
+        this.bookId = bookId;
     }
 
-    public String getbName() {
-        return bName;
+    public String getbookName() {
+        return bookName;
     }
 
-    public void setbName(String bName) {
-        this.bName = bName;
+    public void setbookName(String bName) {
+        this.bookName = bookName;
     }
 
     public Author getAuthor() {
@@ -108,8 +108,8 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "bId=" + bId +
-                ", bName='" + bName + '\'' +
+                "bId=" + bookId +
+                ", bName='" + bookName + '\'' +
                 ", author=" + author +
                 ", genre=" + genre +
                 ", avgRating=" + avgRating +
