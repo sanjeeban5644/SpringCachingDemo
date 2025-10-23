@@ -1,6 +1,7 @@
 package com.sanjeeban.SpringCaching.services;
 
 
+import com.sanjeeban.SpringCaching.dtos.BookDto;
 import com.sanjeeban.SpringCaching.dtos.PopularBookDto;
 import com.sanjeeban.SpringCaching.dtos.RequestBookDto;
 import com.sanjeeban.SpringCaching.entities.Book;
@@ -139,4 +140,22 @@ public class BookService {
 
 
     }
+
+    public BookDto getBook(String bookName) {
+
+        BookDto response = new BookDto();
+
+        Optional<Book> searchedBook = bookRepository.findBookByBookName(bookName);
+
+        if(searchedBook.isPresent()){
+            searchedBook.get().setTotalViews(searchedBook.get().getTotalViews()+1);
+            bookRepository.save(searchedBook.get());
+            response = modelMapper.map(searchedBook.get(),BookDto.class);
+            return response;
+        }
+
+        return null;
+    }
+
+
 }
