@@ -8,6 +8,7 @@ import com.sanjeeban.SpringCaching.entities.Book;
 import com.sanjeeban.SpringCaching.repositories.BookRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
@@ -112,6 +113,7 @@ public class BookService {
     }
 
 
+    @Cacheable(cacheNames = "mostPopularBook",key="'mpb'")
     public PopularBookDto getMostPopularBook() {
 
         PopularBookDto response = new PopularBookDto();

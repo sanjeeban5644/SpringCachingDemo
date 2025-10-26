@@ -1,7 +1,9 @@
 package com.sanjeeban.SpringCaching.dtos;
 
 
-public class PopularBookDto {
+import java.io.Serializable;
+
+public class PopularBookDto implements Serializable {
 
     private String bookName;
     private String bookAuthor;
